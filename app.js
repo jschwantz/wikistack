@@ -4,23 +4,32 @@ const app = express();
 const bodyParser = require('body-parser');
 const PORT = 1337;
 const layout = require('./views/layout');
-const { db } = require('./models');
+const { db, User, Page } = require('./models');
+const wikiRouter = require('./routes/wiki');
+const userRouter = require('./routes/user');
 
 db.authenticate().
 then(() => {
   console.log('connected to the database');
 })
 
-app.listen(PORT, () => {
+const sync = async () => {
+  await db.sync({force: false});
+  app.listen(PORT, () => {
     console.log(`listening on ${PORT}`);
 })
+}
+
+sync();
+
 app.use(morgan('dev'));
 
 app.use(express.static(__dirname + "/public"));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-
+app.use('/wiki', wikiRouter);
+// app.user('/user', userRouter);
 
 app.get("/", (req, res) => {
     res.send(layout('HELLO'))
