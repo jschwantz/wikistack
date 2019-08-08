@@ -14,7 +14,7 @@ then(() => {
 })
 
 const sync = async () => {
-  await db.sync({force: false});
+  await db.sync({force: true});
   app.listen(PORT, () => {
     console.log(`listening on ${PORT}`);
 })
