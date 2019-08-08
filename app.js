@@ -32,5 +32,9 @@ app.use('/wiki', wikiRouter);
 // app.user('/user', userRouter);
 
 app.get("/", (req, res) => {
+  res.redirect("/wiki")
+})
+
+app.get("/", (req, res) => {
     res.send(layout('HELLO'))
 })
