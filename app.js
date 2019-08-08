@@ -29,7 +29,7 @@ app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/wiki', wikiRouter);
-// app.user('/user', userRouter);
+app.use('/users', userRouter);
 
 app.get("/", (req, res) => {
   res.redirect("/wiki")

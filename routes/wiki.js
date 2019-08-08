@@ -34,11 +34,16 @@ router.get('/:slug', async (req, res, next) => {
 });
 
 router.post('/', async (req, res, next) => {
-  let user = await User.findOne({
-    where: { name: req.body.name },
-  });
-  console.log(user)
-  if (user.id === null) {
+  let user;
+  try {
+    user = await User.findOne({
+      where: { name: req.body.name }
+    });
+  } catch (error) {
+    next(error);
+  }
+  console.log(user);
+  if (user === null) {
     user = new User({
       name: req.body.name,
       email: req.body.email
@@ -50,7 +55,7 @@ router.post('/', async (req, res, next) => {
     }
   }
 
-  
+
   const page = new Page({
     title: req.body.title,
     content: req.body.content,
